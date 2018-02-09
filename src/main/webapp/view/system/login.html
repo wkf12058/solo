@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>登录</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="alternate icon" type="image/png" href="../../static/assets/i/favicon.png">
+  <link rel="stylesheet" href="../../static/assets/css/amazeui.min.css"/>
+
+  <style>
+    .header {
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 200%;
+      color: #333;
+      margin-top: 30px;
+    }
+    .header p {
+      font-size: 14px;
+    }
+    
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="am-g">
+    <h1>登录</h1>
+  </div>
+</div>
+<div class="am-g">
+  <div class="am-u-lg-3 am-u-md-8 am-u-sm-centered" style="text-align: center;">
+  	<div style="text-align:center">
+  				<img  alt="..." class="am-img-thumbnail am-circle"  src="../../static/img/loginico1.png" width="180" height="180">
+  	</div>
+  	<hr />
+		<div id="" style="width: 80%; margin:0 auto ;" >
+			&nbsp;
+			<p><input type="userid" id="userid" class="am-form-field am-round" placeholder="账号"/></p>
+			<p><input type="password" id="password" class="am-form-field am-round" placeholder="密码"/></p>
+			<p><button type="button" class="am-btn am-btn-default am-round am-btn-secondary" style="width:80%;" onclick="login()">登录</button></p>
+			<p>
+				<a style="float: left;" href="register.html">注册</a>
+				<a style="float: right;" href="#">忘记密码?</a>
+			</p>
+			<br />
+		</div>
+	<hr />
+  </div>
+</div>
+</body>
+  <script src="../../static/js/require.js"  data-main="../../static/js/main"  async="true" ></script>
+<script type="text/javascript">
+	function login(){
+			var userid=$('#userid').val();
+			var password=$('#password').val();
+			if(Tool.isNull(userid)){
+				alert("请输入账号");
+				return;
+			}
+			if(Tool.isNull(password)){
+				alert("请输入密码");
+				return;
+			}
+			var url="http://127.0.0.1:8080/solo/login/signIn"
+			let data={
+				userId:userid,
+				passWord:password
+			}
+			Tool.post(url,data,(response)=>{ 
+				console.log(response);
+				if(response.code!='200'){
+					alert(response.error_msg);
+					return;
+				}
+				alert('登录成功');
+			},null);
+	}
+</script>
+</html>
