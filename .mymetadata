@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="solo Maven Webapp"
+  id="myeclipse.1522832395964"
+  context-root="/solo"
+  j2ee-spec="6.0"
+  archive="solo Maven Webapp.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+
