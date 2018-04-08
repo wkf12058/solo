@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.solo.body.user.model.User;
 import com.solo.body.user.service.IUserService;
-import com.solo.util.contstant.ResultContant;
-import com.solo.util.msg.ResultMsg;
+import com.solo.util.basics.contstant.ResultContant;
+import com.solo.util.basics.msg.ResultMsg;
 
 /**
  * 用户登录注册
