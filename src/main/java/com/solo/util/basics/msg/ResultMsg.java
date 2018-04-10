@@ -54,7 +54,11 @@ public class ResultMsg {
 		this.code=ResultContant.RESULT_CODE_SUCCESS;
 		this.error_msg=ResultContant.RESULT_MSG_SUCCESS;
 	}
-	
+	/**
+	 * 操作失败
+	 * @param errorMsg
+	 * @param code
+	 */
 	public void error(String errorMsg,String code){
 		this.error_msg=errorMsg;
 		this.code=code;
