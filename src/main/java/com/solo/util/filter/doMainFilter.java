@@ -14,12 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class doMainFilter implements Filter{
 
-	@Override
 	public void destroy() {
 		
 	}
 
-	@Override
 	public void doFilter(ServletRequest req, ServletResponse res,
 			FilterChain arg2) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
@@ -27,7 +25,6 @@ public class doMainFilter implements Filter{
         arg2.doFilter(req, res);
 	}
 
-	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 		
 	}

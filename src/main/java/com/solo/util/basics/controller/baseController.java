@@ -12,7 +12,8 @@ import com.solo.util.basics.defense.DefenseXss;
 
 
 /**
- * 
+ * Controller 的基础类 所有Controller都必须基础此类
+ * 作用：在sping MVC拦截到到请求进入Controller层之前。做一些预处理
  * wkf
  * 2018-2-8
  */
