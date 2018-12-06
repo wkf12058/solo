@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solo.body.user.dao.ProblemMapper">
+  <resultMap id="BaseResultMap" type="com.solo.body.user.model.Problem">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="option1" jdbcType="VARCHAR" property="option1" />
+    <result column="option2" jdbcType="VARCHAR" property="option2" />
+    <result column="option3" jdbcType="VARCHAR" property="option3" />
+    <result column="option4" jdbcType="VARCHAR" property="option4" />
+    <result column="other_option" jdbcType="VARCHAR" property="otherOption" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, answer, option1, option2, option3, option4, other_option, sign
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from so_problem
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from so_problem
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.solo.body.user.model.Problem">
+    insert into so_problem (id, title, answer, 
+      option1, option2, option3, 
+      option4, other_option, sign
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, 
+      #{option1,jdbcType=VARCHAR}, #{option2,jdbcType=VARCHAR}, #{option3,jdbcType=VARCHAR}, 
+      #{option4,jdbcType=VARCHAR}, #{otherOption,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.solo.body.user.model.Problem">
+    insert into so_problem
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+      <if test="option1 != null">
+        option1,
+      </if>
+      <if test="option2 != null">
+        option2,
+      </if>
+      <if test="option3 != null">
+        option3,
+      </if>
+      <if test="option4 != null">
+        option4,
+      </if>
+      <if test="otherOption != null">
+        other_option,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="option1 != null">
+        #{option1,jdbcType=VARCHAR},
+      </if>
+      <if test="option2 != null">
+        #{option2,jdbcType=VARCHAR},
+      </if>
+      <if test="option3 != null">
+        #{option3,jdbcType=VARCHAR},
+      </if>
+      <if test="option4 != null">
+        #{option4,jdbcType=VARCHAR},
+      </if>
+      <if test="otherOption != null">
+        #{otherOption,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.solo.body.user.model.Problem">
+    update so_problem
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="option1 != null">
+        option1 = #{option1,jdbcType=VARCHAR},
+      </if>
+      <if test="option2 != null">
+        option2 = #{option2,jdbcType=VARCHAR},
+      </if>
+      <if test="option3 != null">
+        option3 = #{option3,jdbcType=VARCHAR},
+      </if>
+      <if test="option4 != null">
+        option4 = #{option4,jdbcType=VARCHAR},
+      </if>
+      <if test="otherOption != null">
+        other_option = #{otherOption,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.solo.body.user.model.Problem">
+    update so_problem
+    set title = #{title,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      option1 = #{option1,jdbcType=VARCHAR},
+      option2 = #{option2,jdbcType=VARCHAR},
+      option3 = #{option3,jdbcType=VARCHAR},
+      option4 = #{option4,jdbcType=VARCHAR},
+      other_option = #{otherOption,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectBySql" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	 <include refid="Base_Column_List" />
+   	 from so_problem 
+    where  ${value}  
+  </select>
+  
+  
+</mapper>
