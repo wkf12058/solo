@@ -13,9 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.solo.body.user.dto.ProbleParam;
 import com.solo.body.user.model.Problem;
+import com.solo.body.user.model.SoUser;
 import com.solo.body.user.model.User;
 import com.solo.body.user.service.IProblemService;
+import com.solo.body.user.service.ISoUserService;
 import com.solo.body.user.service.IUserService;
 import com.solo.util.basics.msg.ResultMsg;
 
@@ -31,6 +34,8 @@ public class ProblemController {
 	@Resource 
 	private IProblemService problemService;
 	
+	@Resource 
+	private ISoUserService soUserService;
 	
     @RequestMapping("/getList")
     @ResponseBody
@@ -54,6 +59,28 @@ public class ProblemController {
     	return resultMsg;
     }
     
+    @RequestMapping("/register")
+    @ResponseBody
+    public ResultMsg register(HttpServletRequest request,ProbleParam param){
+    	ResultMsg resultMsg=new ResultMsg();
+    	SoUser user=new SoUser();
+    	user.setUserName(param.name);
+    	user.setPhone(param.phone);
+    	user.setOpenId(param.openId);
+    	user.setAddress(param.address);
+    	if(soUserService.insertSelective(user)>0) {
+    		resultMsg.success("成功");
+    	}
+    	return resultMsg;
+    }
     
+    
+    @RequestMapping("/wxlogin")
+    @ResponseBody
+    public ResultMsg wxlogin(HttpServletRequest request,ProbleParam param){
+    	ResultMsg resultMsg=new ResultMsg();
+    	SoUser user=new SoUser();
+    	return resultMsg;
+    }
     
 }
