@@ -17,10 +17,15 @@ import com.solo.body.user.dto.ProbleParam;
 import com.solo.body.user.model.Problem;
 import com.solo.body.user.model.SoUser;
 import com.solo.body.user.model.User;
+import com.solo.body.user.model.UserAnswer;
 import com.solo.body.user.service.IProblemService;
 import com.solo.body.user.service.ISoUserService;
+import com.solo.body.user.service.IUserAnsweService;
 import com.solo.body.user.service.IUserService;
 import com.solo.util.basics.msg.ResultMsg;
+import com.solo.util.wx.WxUtil;
+
+import sun.print.resources.serviceui;
 
 /**
  * 
@@ -37,11 +42,21 @@ public class ProblemController {
 	@Resource 
 	private ISoUserService soUserService;
 	
+	@Resource 
+	private IUserAnsweService userAnsweService;
+	
+	/**
+	 * 获取题目信息
+	 * @param sgin
+	 * @return
+	 */
     @RequestMapping("/getList")
     @ResponseBody
-    public ResultMsg getProblemList(String sgin){
+    public ResultMsg getProblemList(String userId,String sign){
     	ResultMsg resultMsg=new ResultMsg();
     	Map<String, Object> param=new HashMap<>();
+    	param.put("sign", sign);
+    	param.put("userId", userId);
     	List<Problem> list=problemService.selectBySgin(param);
     	List<Map<String, Object>> resultList=new ArrayList<>();
     	for (int i = 0; i < list.size(); i++) {
@@ -59,6 +74,13 @@ public class ProblemController {
     	return resultMsg;
     }
     
+    
+    /**
+     * 注册填写信息
+     * @param request
+     * @param param
+     * @return
+     */
     @RequestMapping("/register")
     @ResponseBody
     public ResultMsg register(HttpServletRequest request,ProbleParam param){
@@ -69,17 +91,62 @@ public class ProblemController {
     	user.setOpenId(param.openId);
     	user.setAddress(param.address);
     	if(soUserService.insertSelective(user)>0) {
-    		resultMsg.success("成功");
+    		List<SoUser> userList=soUserService.getUserByOpenId(param.openId);
+    		resultMsg.success(userList.get(0).getId());
     	}
     	return resultMsg;
     }
     
-    
+    /**
+     * 微信登录
+     * @param request
+     * @param param
+     * @return
+     */
     @RequestMapping("/wxlogin")
     @ResponseBody
-    public ResultMsg wxlogin(HttpServletRequest request,ProbleParam param){
+    public ResultMsg wxlogin(HttpServletRequest request,String code){
     	ResultMsg resultMsg=new ResultMsg();
-    	SoUser user=new SoUser();
+    	
+    	String openId="";
+    	openId=WxUtil.openId(code).get("openId").toString();
+    	List<SoUser> userList=soUserService.getUserByOpenId(openId);
+    	if(userList.size()>0) {
+    		SoUser user=userList.get(0);
+    		if(user!=null) {
+        		Map<String, String> map=new HashMap<>();
+        		map.put("type", "1");
+        		map.put("userId",user.getId().toString());
+    			resultMsg.success(map);
+    		}
+    	}else {
+    		Map<String, String> map=new HashMap<>();
+    		map.put("type", "2");
+    		map.put("openId", openId);
+    		resultMsg.success(map);
+    	}
+    	return resultMsg;
+    }
+    
+    /**
+     * 用户提交答案
+     * @param request
+     * @param param
+     * @return
+     */
+    @RequestMapping("/submitAssets")
+    @ResponseBody
+    public ResultMsg submitAssets(HttpServletRequest request,ProbleParam param){//HttpServletRequest request,
+    	ResultMsg resultMsg=new ResultMsg();
+    	UserAnswer record=new UserAnswer();
+    	record.setUserId(Integer.parseInt(param.userId));
+    	record.setAnswer(param.answer.toString());
+    	record.setProblemId(param.problemId.toString());
+    	record.setScore(param.score);
+    	record.setSign(param.sign);
+    	if(userAnsweService.insert(record)>0) {
+    		resultMsg.success("成功");
+    	}
     	return resultMsg;
     }
     

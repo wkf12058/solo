@@ -1,5 +1,7 @@
 package com.solo.body.user.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -51,8 +53,10 @@ public class SoUserServiceImpl  implements ISoUserService {
 	}
 
 	@Override
-	public SoUser getUserByOpenId(String openId) {
-		return null;
+	public List<SoUser> getUserByOpenId(String openId) {
+		String sql="1=1 ";
+		sql +="and open_id='"+openId+"' ";
+		return soUserMapper.selectBySql(sql);
 	}
 
 

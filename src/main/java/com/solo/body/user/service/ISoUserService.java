@@ -1,4 +1,6 @@
+
 package com.solo.body.user.service;
+import java.util.List;
 
 import com.solo.body.user.model.SoUser;
 
@@ -15,5 +17,6 @@ public interface ISoUserService {
 
     int updateByPrimaryKey(SoUser record);
     
-    SoUser getUserByOpenId(String openId);
+    List<SoUser> getUserByOpenId(String openId);
+    
 }

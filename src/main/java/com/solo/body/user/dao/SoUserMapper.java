@@ -1,5 +1,8 @@
 package com.solo.body.user.dao;
 
+import java.util.List;
+
+import com.solo.body.user.model.Problem;
 import com.solo.body.user.model.SoUser;
 
 public interface SoUserMapper {
@@ -15,5 +18,5 @@ public interface SoUserMapper {
 
     int updateByPrimaryKey(SoUser record);
     
-    SoUser getUserByOpenId(String openId);
+    List<SoUser> selectBySql(String sql);
 }

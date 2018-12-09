@@ -54,10 +54,11 @@ public class ProblemServiceImpl implements IProblemService{
 
 	@Override
 	public List<Problem> selectBySgin(Map<String, Object> param) {
-		String id="1";
-		String sql=" sign=' "+id+"' ";
-		System.out.println(sql);
-		return problemMapper.selectBySql("1=1");
+		String sql="1=1 ";
+		String sign=param.get("sign").toString();
+		sql +="and  sign='"+sign+"' ";
+		System.err.println(sql);
+		return problemMapper.selectBySql(sql);
 	}
 	
 	
