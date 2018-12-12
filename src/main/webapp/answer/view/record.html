@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="../assets/css/aui.css" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>成绩历史</title>
+	</head>
+
+	<body>
+		<div class="aui-content aui-margin-b-15" style="padding: 10px 0px;">
+		 <div class="aui-card-list">
+		 	<div style="color: orange;text-align: center;height: 40px;line-height: 40px;" id="Tips">
+		 		
+		 		</div>
+		 </div>
+		<section class="aui-content-padded" id='content'>
+
+		</section>
+	    </div>
+	</body>
+	<script src="../assets/js/jquery-3.2.1.js"></script> 
+	<script src="../assets/js/template-web.js"></script> 
+	<script src="../assets/js/main.js"></script> 
+	<script type="text/html" id="userAnswer">
+		 {{each list as value i}}
+		    <div class="aui-card-list">
+		        <div class="aui-card-list-header">
+		            答题情况:第{{i+1}}次
+		        </div>
+		        <div class="aui-card-list-content-padded">
+		            	得分：{{value.score}}分
+		        </div>
+		        <div class="aui-card-list-footer">
+		            答题日期：{{value.sign}}
+		        </div>
+		    </div>
+		{{/each}}
+	</script>
+	<script>
+		//设置全局变量
+		if(getQueryVariable("userId")){
+			 userId=getQueryVariable("userId");
+		}
+		//数据添加到这里
+	var data = {
+	    list: [
+	    { sign:'2018-12-11',score:'10'},
+	    { sign:'2018-12-11',score:'10'},
+	    { sign:'2018-12-11',score:'10'},
+	    { sign:'2018-12-11',score:'10'},
+	    ],
+	};
+	//获取是否还有题目可答；
+	getProblem();
+	//获取答题情况;
+	userAnwerList();
+	
+	function userAnwerList(){
+		let param={
+			userId:window.userId,
+		}
+		console.log(param);
+		$.ajax({
+		      type:"post",
+		      url:serverUrl+"/solo/problem/getAnswerByUserId",
+		      data:param,
+		      async:true,
+		      success:success,
+		      error:error,
+		  });
+	}
+	
+	function success(res){
+		data.list=res.data;
+		console.log(res);
+		var html = template('userAnswer', data);
+		document.getElementById('content').innerHTML = html;
+	}
+	function error(res){
+		console.log(data);
+	}
+	//获取题目信息
+    function getProblem(){
+    	let url=serverUrl+"/solo/problem/getList";
+    	let param={
+    		userId:userId,
+    		sign:sign,
+    		};
+    	$.ajax({
+    		type: "POST",
+    		url: url,
+    		data: param,
+    		success: function(data){
+    			console.log(data);
+    			if(data.data!=""){
+    				if(data.data=="END"){
+    					document.querySelector("#Tips").innerHTML = "今日题目已作答，请于明天参加！";
+    				}else{
+    					document.querySelector("#Tips").innerHTML = "还有题目未作答  <a href='index.html'>（前往）</a>";
+    				}
+    			}else{
+    				alert("没有题目");
+    			}
+
+    		},
+    		error:function(e){
+    			console.log(e.responseText);
+    		}
+    	});
+    }
+	</script>
+
+</html>

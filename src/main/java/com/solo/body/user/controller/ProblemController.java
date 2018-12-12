@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.jdbc.StringUtils;
 import com.solo.body.user.dto.ProbleParam;
 import com.solo.body.user.model.Problem;
 import com.solo.body.user.model.SoUser;
@@ -57,6 +58,14 @@ public class ProblemController {
     	Map<String, Object> param=new HashMap<>();
     	param.put("sign", sign);
     	param.put("userId", userId);
+    	
+    	String sql=" user_id='"+userId+"'and sign='"+sign+"' ";
+    	List<UserAnswer> ualist=userAnsweService.selectBySql(sql);
+    	if(ualist.size()>0) {
+    		
+    		resultMsg.success("END");
+    		return resultMsg;
+    	}
     	List<Problem> list=problemService.selectBySgin(param);
     	List<Map<String, Object>> resultList=new ArrayList<>();
     	for (int i = 0; i < list.size(); i++) {
@@ -65,7 +74,6 @@ public class ProblemController {
     		map.put("id", pro.getId());
     		map.put("title", pro.getTitle());
     		map.put("answer", pro.getAnswer());
-    		
     		String[] xuanxiang= {pro.getOption1(),pro.getOption2(),pro.getOption3(),pro.getOption4()};
     		map.put("xuanxiang", xuanxiang);
     		resultList.add(map);
@@ -88,7 +96,9 @@ public class ProblemController {
     	SoUser user=new SoUser();
     	user.setUserName(param.name);
     	user.setPhone(param.phone);
-    	user.setOpenId(param.openId);
+    	if(!StringUtils.isNullOrEmpty(param.openId)) {
+    		user.setOpenId(param.openId);
+    	}
     	user.setAddress(param.address);
     	if(soUserService.insertSelective(user)>0) {
     		List<SoUser> userList=soUserService.getUserByOpenId(param.openId);
@@ -147,6 +157,21 @@ public class ProblemController {
     	if(userAnsweService.insert(record)>0) {
     		resultMsg.success("成功");
     	}
+    	return resultMsg;
+    }
+    
+    /**
+     * 获取答题情况
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/getAnswerByUserId")
+    @ResponseBody
+    public ResultMsg getAnswerByUserId(String userId){
+    	ResultMsg resultMsg=new ResultMsg();
+    	String sql=" user_id='"+userId+"' " ;
+    	List<UserAnswer> list=userAnsweService.selectBySql(sql);
+    	resultMsg.success(list);
     	return resultMsg;
     }
     

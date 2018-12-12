@@ -1,5 +1,7 @@
 package com.solo.body.user.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
@@ -28,6 +30,11 @@ public class UserAnsweServiceImpl  implements IUserAnsweService {
 	@Override
 	public int insertSelective(UserAnswer record) {
 		return userAnswerMapper.insertSelective(record);
+	}
+
+	@Override
+	public List<UserAnswer> selectBySql(String sql) {
+		return userAnswerMapper.selectBySql(sql);
 	}
 
 

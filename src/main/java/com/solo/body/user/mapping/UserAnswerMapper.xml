@@ -51,4 +51,10 @@
       </if>
     </trim>
   </insert>
+  
+  <select id="selectBySql" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select *
+   	 from so_user_answer 
+    where  ${value}  
+  </select>
 </mapper>
