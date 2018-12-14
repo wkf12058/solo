@@ -5,8 +5,8 @@ var serverUrl="http://127.0.0.1:8080";
 var userId="";
 var openId="";
 
+var mydate = new Date();
 var sign= mydate.getFullYear()+""+(mydate.getMonth()+1)+""+mydate.getDate();
-
 		//获取参数
 	function getQueryVariable(variable){
        var query = window.location.search.substring(1);

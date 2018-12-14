@@ -85,7 +85,7 @@ function TiMu(){
 				document.querySelector(".topic-frameli").innerHTML = "第 " + "<div>" + select1 + "</div>" + "/" + timu + " 题"
 			}else{
 				let score =compute();
-				document.querySelector(".topic-frameli").innerHTML = "<div>答题结束</div>";//<div>结算</div>
+				document.querySelector(".topic-frameli").innerHTML = "<div id='solo-title'>答题结束</div>";//<div>结算</div>
 				var htmlStr=""//<img src='../assets/img/sueccss.png' class='solo-img' />
 				htmlStr+="<div class='solo-font'>得分："+score+"</div>"
 				htmlStr+="<div class='solo-button' onclick='goTo()' >确定</div>"

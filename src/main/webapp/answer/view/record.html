@@ -42,6 +42,8 @@
 		{{/each}}
 	</script>
 	<script>
+var mydate = new Date();
+var sign= mydate.getFullYear()+""+(mydate.getMonth()+1)+""+mydate.getDate();
 		//设置全局变量
 		if(getQueryVariable("userId")){
 			 userId=getQueryVariable("userId");
@@ -101,7 +103,7 @@
     				if(data.data=="END"){
     					document.querySelector("#Tips").innerHTML = "今日题目已作答，请于明天参加！";
     				}else{
-    					document.querySelector("#Tips").innerHTML = "还有题目未作答  <a href='index.html'>（前往）</a>";
+    					document.querySelector("#Tips").innerHTML = "还有题目未作答  <a href='index.html?userId="+userId+"'>（前往）</a>";
     				}
     			}else{
     				alert("没有题目");
