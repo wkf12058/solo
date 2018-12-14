@@ -14,8 +14,6 @@ var frame_left = 0;
 //使用
 var action="answer";//show 展示题目   answer 答题   test 测试
 
-//当前题目
-var nowIndex=1;
 
 
 //测试题目数据
@@ -57,7 +55,6 @@ var testData=[ {"id" : "1",  "title": "1. 众所周知我们所处的宇宙的�
 		getProblem();
 	}else if(action=="test"){//测试
 		TiMu(testData)//测试用例
-		data=testData;
 	}
 	
 	
@@ -115,8 +112,6 @@ function TiMu(data){
 		}
 		
 	}
-	
-	//
 	var lastDiv = document.createElement("div");
 	lastDiv.className = "entrance-bottom-frame-line";
 	lastDiv.setAttribute("id","balance");
@@ -127,23 +122,35 @@ function TiMu(data){
 	var active = "active"
 	var none = "none"
 	addClass(dact, active)
-	
+	var timu_id = 0
 	var select1 = 1
+	
 	document.querySelector(".entrance-bottom-frame").style.marginLeft = frame_left + "%"
 	document.querySelector(".topic-frameli").innerHTML = "第 " + "<div>" + select1 + "</div>" + "/" + timu + " 题"
-	
-	var timu_id = 0
 	//设置按键事件
 	for(var i = 0;i<document.querySelectorAll(".entrance-bottom-frame-line-button").length;i++){
 		document.querySelectorAll(".entrance-bottom-frame-line-button")[i].onclick = function(){
-			console.log(timu_id)
-			choiceList.push(this.name);//选中记录
+			choiceList.push(this.name);
+			if(timu_id < document.querySelectorAll(".entrance-bottom-frame-line").length - 2){
+				//修改当前题目
+				select1++;
+				document.querySelector(".topic-frameli").innerHTML = "第 " + "<div>" + select1 + "</div>" + "/" + timu + " 题"
+			}else{
+				let score =compute();
+				document.querySelector(".topic-frameli").innerHTML = "<div id='solo-title'>答题结束</div>";//<div>结算</div>
+				var htmlStr=""//<img src='../assets/img/sueccss.png' class='solo-img' />
+				htmlStr+="<div class='solo-font'>得分："+score+"</div>"
+				htmlStr+="<div class='solo-button' onclick='goTo()' >确定</div>"
+				document.getElementById("balance").innerHTML = htmlStr;
+				submit(score); 
+			}
+			//切换效果
+			frame_left += -100
 			timu_id++;
-			//修改样式
+			document.querySelector(".entrance-bottom-frame").style.marginLeft = frame_left + "%"
 			addClass(document.querySelectorAll(".entrance-bottom-frame-line")[timu_id], active)
-			//removeClass(document.querySelectorAll(".entrance-bottom-frame-line")[timu_id-1], active)
-			//下一题，切换题目
-			next();
+			removeClass(document.querySelectorAll(".entrance-bottom-frame-line")[timu_id-1], active)
+			
 		}
 	}
 }
@@ -188,18 +195,9 @@ function last(){
 
 //下一题
 function next(){
-	nowIndex++;
-	frame_left += -100;
-	if(nowIndex>data.length){//结算了
-		nowIndex--;
-	}else{
-		document.querySelector(".entrance-bottom-frame").style.marginLeft = frame_left + "%"
-		document.querySelector(".topic-frameli").innerHTML = "第 " + "<div>" + nowIndex + "</div>" + "/" +data.length + " 题"
-	}
-}
+	frame_left += -100
+	document.querySelector(".entrance-bottom-frame").style.marginLeft = frame_left + "%"
 
-function clickOption(){
-	
 }
 
 //计算分数
