@@ -2,7 +2,6 @@ package com.solo.body.user.dao;
 
 import java.util.List;
 
-import com.solo.body.user.model.Problem;
 import com.solo.body.user.model.SoUser;
 
 public interface SoUserMapper {

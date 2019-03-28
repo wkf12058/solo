@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solo.body.user.dao.PersonAnswerMapper">
+  <resultMap id="BaseResultMap" type="com.solo.body.user.model.PersonAnswer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="person_id" jdbcType="VARCHAR" property="personId" />
+    <result column="paper_id" jdbcType="VARCHAR" property="paperId" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <result column="dics" jdbcType="VARCHAR" property="dics" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, person_id, paper_id, answer, sign, dics
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person_answer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from person_answer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.solo.body.user.model.PersonAnswer">
+    insert into person_answer (id, person_id, paper_id, 
+      answer, sign, dics)
+    values (#{id,jdbcType=INTEGER}, #{personId,jdbcType=VARCHAR}, #{paperId,jdbcType=VARCHAR}, 
+      #{answer,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{dics,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.solo.body.user.model.PersonAnswer">
+    insert into person_answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="personId != null">
+        person_id,
+      </if>
+      <if test="paperId != null">
+        paper_id,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+      <if test="dics != null">
+        dics,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personId != null">
+        #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="paperId != null">
+        #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="dics != null">
+        #{dics,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.solo.body.user.model.PersonAnswer">
+    update person_answer
+    <set>
+      <if test="personId != null">
+        person_id = #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="paperId != null">
+        paper_id = #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="dics != null">
+        dics = #{dics,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.solo.body.user.model.PersonAnswer">
+    update person_answer
+    set person_id = #{personId,jdbcType=VARCHAR},
+      paper_id = #{paperId,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      dics = #{dics,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

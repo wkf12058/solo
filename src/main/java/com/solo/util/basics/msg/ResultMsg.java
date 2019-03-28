@@ -54,6 +54,12 @@ public class ResultMsg {
 		this.code=ResultContant.RESULT_CODE_SUCCESS;
 		this.error_msg=ResultContant.RESULT_MSG_SUCCESS;
 	}
+	public void success(){
+		this.data=ResultContant.RESULT_MSG_SUCCESS;
+		this.code=ResultContant.RESULT_CODE_SUCCESS;
+		this.error_msg=ResultContant.RESULT_MSG_SUCCESS;
+	}
+	
 	/**
 	 * 操作失败
 	 * @param errorMsg
@@ -63,5 +69,8 @@ public class ResultMsg {
 		this.error_msg=errorMsg;
 		this.code=code;
 	}
-	
+	public void error(){
+		this.error_msg=ResultContant.RESULT_MSG_FAIL;
+		this.code=ResultContant.RESULT_CODE_FAIL;
+	}
 }

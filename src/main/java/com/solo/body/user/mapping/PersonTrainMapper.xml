@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solo.body.user.dao.PersonTrainMapper">
+  <resultMap id="BaseResultMap" type="com.solo.body.user.model.PersonTrain">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="person_id" jdbcType="VARCHAR" property="personId" />
+    <result column="time_slot" jdbcType="VARCHAR" property="timeSlot" />
+    <result column="train_name" jdbcType="VARCHAR" property="trainName" />
+    <result column="certificate" jdbcType="VARCHAR" property="certificate" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, person_id, time_slot, train_name, certificate, company
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person_train
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from person_train
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.solo.body.user.model.PersonTrain">
+    insert into person_train (id, person_id, time_slot, 
+      train_name, certificate, company
+      )
+    values (#{id,jdbcType=INTEGER}, #{personId,jdbcType=VARCHAR}, #{timeSlot,jdbcType=VARCHAR}, 
+      #{trainName,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.solo.body.user.model.PersonTrain">
+    insert into person_train
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="personId != null">
+        person_id,
+      </if>
+      <if test="timeSlot != null">
+        time_slot,
+      </if>
+      <if test="trainName != null">
+        train_name,
+      </if>
+      <if test="certificate != null">
+        certificate,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personId != null">
+        #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="timeSlot != null">
+        #{timeSlot,jdbcType=VARCHAR},
+      </if>
+      <if test="trainName != null">
+        #{trainName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null">
+        #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.solo.body.user.model.PersonTrain">
+    update person_train
+    <set>
+      <if test="personId != null">
+        person_id = #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="timeSlot != null">
+        time_slot = #{timeSlot,jdbcType=VARCHAR},
+      </if>
+      <if test="trainName != null">
+        train_name = #{trainName,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null">
+        certificate = #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.solo.body.user.model.PersonTrain">
+    update person_train
+    set person_id = #{personId,jdbcType=VARCHAR},
+      time_slot = #{timeSlot,jdbcType=VARCHAR},
+      train_name = #{trainName,jdbcType=VARCHAR},
+      certificate = #{certificate,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

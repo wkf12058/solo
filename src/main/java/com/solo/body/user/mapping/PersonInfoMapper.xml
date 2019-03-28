@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solo.body.user.dao.PersonInfoMapper">
+  <resultMap id="BaseResultMap" type="com.solo.body.user.model.PersonInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="identity_num" jdbcType="VARCHAR" property="identityNum" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="is_marry" jdbcType="VARCHAR" property="isMarry" />
+    <result column="political_identity" jdbcType="VARCHAR" property="politicalIdentity" />
+    <result column="speciality" jdbcType="VARCHAR" property="speciality" />
+    <result column="household_address" jdbcType="VARCHAR" property="householdAddress" />
+    <result column="household_type" jdbcType="VARCHAR" property="householdType" />
+    <result column="apply_job" jdbcType="VARCHAR" property="applyJob" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="height" jdbcType="VARCHAR" property="height" />
+    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <result column="emergency_contact" jdbcType="VARCHAR" property="emergencyContact" />
+    <result column="emergency_phone" jdbcType="VARCHAR" property="emergencyPhone" />
+    <result column="input_time" jdbcType="TIMESTAMP" property="inputTime" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="arrival_time" jdbcType="VARCHAR" property="arrivalTime" />
+    <result column="is_agree" jdbcType="VARCHAR" property="isAgree" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, sex, identity_num, nation, birthday, is_marry, political_identity, speciality, 
+    household_address, household_type, apply_job, job, major, phone_num, email, address, 
+    height, weight, emergency_contact, emergency_phone, input_time, img, arrival_time, 
+    is_agree
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from person_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.solo.body.user.model.PersonInfo">
+    insert into person_info (id, name, sex, 
+      identity_num, nation, birthday, 
+      is_marry, political_identity, speciality, 
+      household_address, household_type, apply_job, 
+      job, major, phone_num, 
+      email, address, height, 
+      weight, emergency_contact, emergency_phone, 
+      input_time, img, arrival_time, 
+      is_agree)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{identityNum,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
+      #{isMarry,jdbcType=VARCHAR}, #{politicalIdentity,jdbcType=VARCHAR}, #{speciality,jdbcType=VARCHAR}, 
+      #{householdAddress,jdbcType=VARCHAR}, #{householdType,jdbcType=VARCHAR}, #{applyJob,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=VARCHAR}, #{emergencyContact,jdbcType=VARCHAR}, #{emergencyPhone,jdbcType=VARCHAR}, 
+      #{inputTime,jdbcType=TIMESTAMP}, #{img,jdbcType=VARCHAR}, #{arrivalTime,jdbcType=VARCHAR}, 
+      #{isAgree,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.solo.body.user.model.PersonInfo">
+    insert into person_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="identityNum != null">
+        identity_num,
+      </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="isMarry != null">
+        is_marry,
+      </if>
+      <if test="politicalIdentity != null">
+        political_identity,
+      </if>
+      <if test="speciality != null">
+        speciality,
+      </if>
+      <if test="householdAddress != null">
+        household_address,
+      </if>
+      <if test="householdType != null">
+        household_type,
+      </if>
+      <if test="applyJob != null">
+        apply_job,
+      </if>
+      <if test="job != null">
+        job,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="emergencyContact != null">
+        emergency_contact,
+      </if>
+      <if test="emergencyPhone != null">
+        emergency_phone,
+      </if>
+      <if test="inputTime != null">
+        input_time,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time,
+      </if>
+      <if test="isAgree != null">
+        is_agree,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNum != null">
+        #{identityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="isMarry != null">
+        #{isMarry,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalIdentity != null">
+        #{politicalIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="speciality != null">
+        #{speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="householdAddress != null">
+        #{householdAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="householdType != null">
+        #{householdType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyJob != null">
+        #{applyJob,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContact != null">
+        #{emergencyContact,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyPhone != null">
+        #{emergencyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="inputTime != null">
+        #{inputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalTime != null">
+        #{arrivalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isAgree != null">
+        #{isAgree,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.solo.body.user.model.PersonInfo">
+    update person_info
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNum != null">
+        identity_num = #{identityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="isMarry != null">
+        is_marry = #{isMarry,jdbcType=VARCHAR},
+      </if>
+      <if test="politicalIdentity != null">
+        political_identity = #{politicalIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="speciality != null">
+        speciality = #{speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="householdAddress != null">
+        household_address = #{householdAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="householdType != null">
+        household_type = #{householdType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyJob != null">
+        apply_job = #{applyJob,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContact != null">
+        emergency_contact = #{emergencyContact,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyPhone != null">
+        emergency_phone = #{emergencyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="inputTime != null">
+        input_time = #{inputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time = #{arrivalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isAgree != null">
+        is_agree = #{isAgree,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.solo.body.user.model.PersonInfo">
+    update person_info
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      identity_num = #{identityNum,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      is_marry = #{isMarry,jdbcType=VARCHAR},
+      political_identity = #{politicalIdentity,jdbcType=VARCHAR},
+      speciality = #{speciality,jdbcType=VARCHAR},
+      household_address = #{householdAddress,jdbcType=VARCHAR},
+      household_type = #{householdType,jdbcType=VARCHAR},
+      apply_job = #{applyJob,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      height = #{height,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      emergency_contact = #{emergencyContact,jdbcType=VARCHAR},
+      emergency_phone = #{emergencyPhone,jdbcType=VARCHAR},
+      input_time = #{inputTime,jdbcType=TIMESTAMP},
+      img = #{img,jdbcType=VARCHAR},
+      arrival_time = #{arrivalTime,jdbcType=VARCHAR},
+      is_agree = #{isAgree,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

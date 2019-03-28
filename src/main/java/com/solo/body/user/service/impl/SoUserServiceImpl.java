@@ -8,11 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.solo.body.user.dao.SoUserMapper;
-import com.solo.body.user.dao.UserMapper;
 import com.solo.body.user.model.SoUser;
-import com.solo.body.user.model.User;
 import com.solo.body.user.service.ISoUserService;
-import com.solo.body.user.service.IUserService;
 
 
 @Service
