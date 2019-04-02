@@ -114,4 +114,17 @@
       relationship = #{relationship,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+<!-- 添加的方法 -->
+  <select id="selectBySql"   resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from family_member
+    where  ${value} 
+  </select>
+  <select id="selectCount"  resultType="java.lang.Integer">
+    select count(1)
+    from family_member
+    where  ${value} 
+  </select>  
 </mapper>

@@ -1,6 +1,9 @@
 package com.solo.body.user.dao;
 
+import java.util.List;
+
 import com.solo.body.user.model.PersonEducation;
+import com.solo.body.user.model.PersonTrain;
 
 public interface PersonEducationMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,8 @@ public interface PersonEducationMapper {
     int updateByPrimaryKeySelective(PersonEducation record);
 
     int updateByPrimaryKey(PersonEducation record);
+    
+    List<PersonEducation> selectBySql(String sql);
+    
+    int selectCount(String sql);
 }

@@ -327,4 +327,18 @@
       is_agree = #{isAgree,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+      <!-- 添加的方法 -->
+  <select id="selectBySql"   resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person_info
+    where  ${value} 
+  </select>
+  <select id="selectCount"  resultType="java.lang.Integer">
+    select count(1)
+    from person_info
+    where  ${value} 
+  </select> 
+  
+  
 </mapper>

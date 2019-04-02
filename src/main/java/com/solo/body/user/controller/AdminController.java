@@ -1,5 +1,6 @@
 package com.solo.body.user.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +9,17 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.solo.body.user.dao.MainShowMapper;
+import com.solo.body.user.model.MainShow;
 import com.solo.body.user.model.PersonAnswer;
+import com.solo.body.user.model.PersonEducation;
+import com.solo.body.user.model.PersonOtherAnswer;
 import com.solo.body.user.model.QChoice;
 import com.solo.body.user.model.QPaper;
 import com.solo.body.user.service.IFamilyMemberService;
@@ -19,6 +27,7 @@ import com.solo.body.user.service.IPersonAnswerService;
 import com.solo.body.user.service.IPersonConsultantService;
 import com.solo.body.user.service.IPersonEducationService;
 import com.solo.body.user.service.IPersonInfoService;
+import com.solo.body.user.service.IPersonOtherAnswerService;
 import com.solo.body.user.service.IPersonTrainService;
 import com.solo.body.user.service.IQChoiceService;
 import com.solo.body.user.service.IQPaperService;
@@ -42,29 +51,16 @@ public class AdminController  extends BaseController{
 	@Resource
 	private IPersonAnswerService personAnswerService;//个人答案
 	
-	/**
-	 * 添加试卷
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/addPaper")
-	@ResponseBody
-	public ResultMsg addPaper(HttpServletRequest request) {
-		ResultMsg resultMsg = new ResultMsg();
-		Map  param=getParameterMap(request);
-		QPaper record=new QPaper();
-		record.setQuestionId(param.get("idList").toString());
-		record.setText(param.get("text").toString());
-		record.setTitle(param.get("title").toString());
-		int result=paperService.insert(record);
-		if(result>0) {	
-			resultMsg.success();
-		}else {
-			resultMsg.error();
-		}
-		return resultMsg;
-	}
+	@Resource
+	private IPersonOtherAnswerService personOtherAnswerService;//其他答案
 
+	//后面有时间分层处理一下
+	@Resource
+	private  MainShowMapper mainShowMapper;//主页面
+	
+	
+	/////////////////////////////////////////////////////////获取
+	
 	/**获取试题分页
 	 * 
 	 * @param request
@@ -79,6 +75,37 @@ public class AdminController  extends BaseController{
 		resultMsg.success(resultPage);
 		return resultMsg;
 	}
+	
+	/**获取人员分页
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getPersonPage")
+	@ResponseBody
+	public ResultMsg getPersonPage(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map  param=getParameterMap(request);
+		ResultPage resultPage= personInfoService.getPaperPage(param);
+		resultMsg.success(resultPage);
+		return resultMsg;
+	}
+	
+	/**根据id获取人员
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getPersonInfoById")
+	@ResponseBody
+	public ResultMsg getPersonInfoById(HttpServletRequest request,String personId) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map resultMap= personInfoService.getPersonInfoById(personId);
+		resultMsg.success(resultMap);
+		return resultMsg;
+	}
+	
+	
 	
 	/**根据id获取试题
 	 * 
@@ -104,8 +131,90 @@ public class AdminController  extends BaseController{
 		return resultMsg;
 	}
 	
+	/**
+	 * 获取题目
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getChoicePage")
+	@ResponseBody
+	public ResultMsg getChoiceList(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map  param=getParameterMap(request);
+		ResultPage resultPage= choiceService.getChoicePage(param);
+		resultMsg.success(resultPage);
+		return resultMsg;
+	}
+	
+	/**
+	 * 获取答案 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getPersonAnwser")
+	@ResponseBody
+	public ResultMsg getPersonAnwser(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map  param=getParameterMap(request);
+		PersonAnswer result= personAnswerService.getPersonAnwser(param);
+		resultMsg.success(result);
+		return resultMsg;
+	}
+	
+	/**
+	 * 获取问答题答案 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getQuestionsAnswer")
+	@ResponseBody
+	public ResultMsg getQuestionsAnswer(HttpServletRequest request,String personId) {
+		ResultMsg resultMsg = new ResultMsg();
+		List<PersonOtherAnswer> result= personOtherAnswerService.getByPersonId(personId);
+		resultMsg.success(result);
+		return resultMsg;
+	}
 	
 	
+	/** 获取主页面显示
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getMain")
+	@ResponseBody
+	public ResultMsg getMain(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		List<MainShow> result= mainShowMapper.selectBySql("1=1");
+		resultMsg.success(result);
+		return resultMsg;
+	}
+	
+	
+	/////////////////////////////////////////////////////////添加
+	
+	/**
+	 * 添加试卷
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/addPaper")
+	@ResponseBody
+	public ResultMsg addPaper(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map  param=getParameterMap(request);
+		QPaper record=new QPaper();
+		record.setQuestionId(param.get("idList").toString());
+		record.setText(param.get("text").toString());
+		record.setTitle(param.get("title").toString());
+		int result=paperService.insert(record);
+		if(result>0) {	
+			resultMsg.success();
+		}else {
+			resultMsg.error();
+		}
+		return resultMsg;
+	}
+
 	/**
 	 * 添加试题
 	 * @param request
@@ -128,22 +237,6 @@ public class AdminController  extends BaseController{
 		}else {
 			resultMsg.error();
 		}
-		return resultMsg;
-	}
-	
-	
-	/**
-	 * 获取题目
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/getChoicePage")
-	@ResponseBody
-	public ResultMsg getChoiceList(HttpServletRequest request) {
-		ResultMsg resultMsg = new ResultMsg();
-		Map  param=getParameterMap(request);
-		ResultPage resultPage= choiceService.getChoicePage(param);
-		resultMsg.success(resultPage);
 		return resultMsg;
 	}
 	
@@ -188,6 +281,62 @@ public class AdminController  extends BaseController{
 		return resultMsg;
 	}
 	
+	/**
+	 * 填写问答题目
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/answerQuestions")
+	@ResponseBody
+	public ResultMsg AnswerQuestions(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map<String,String>  param=getParameterMap(request);
+		String personId=param.get("personId").toString();
+		String json= param.get("list").toString();
+		JSONArray list = JSONArray.parseArray(json);
+		if(list.size()>0){
+			for (int i = 0; i < list.size(); i++) {
+				JSONObject item = list.getJSONObject(i);
+				PersonOtherAnswer record=new PersonOtherAnswer();
+				record.setPersonId(personId);
+				record.setAnwser(item.get("anwser").toString());
+				record.setTitle(item.get("title").toString());
+				personOtherAnswerService.insert(record);
+			}
+		}
+		resultMsg.success();
+		return resultMsg;
+	}
+	
+	/** 获取主页面显示
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/saveShow")
+	@ResponseBody
+	public ResultMsg saveShow(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map<String,String>  param=getParameterMap(request);
+		MainShow record=new MainShow();
+		record.setShowId(param.get("showId"));
+		record.setSort(param.get("sort"));
+		record.setTag(param.get("tag"));
+		record.setType(param.get("type"));
+		record.setUpdateTime(new Date());
+		int result=0;
+		if(StringUtils.isEmpty(param.get("id"))) {
+			result= mainShowMapper.insert(record);
+		}else {
+			record.setId(Integer.parseInt(param.get("id")));
+			result= mainShowMapper.updateByPrimaryKeySelective(record);
+		}
+		if(result>0) {
+			resultMsg.success();
+		}
+		return resultMsg;
+	}
+	
+/////////////////////////////////////////////////////////删除
 	
 	/**
 	 * 删除试卷
@@ -229,6 +378,24 @@ public class AdminController  extends BaseController{
 		return resultMsg;
 	}
 	
-	
+	/**
+	 * 删除界面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteShow")
+	@ResponseBody
+	public ResultMsg deleteShow(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map<String,String>  param=getParameterMap(request);
+		Integer id=Integer.parseInt(param.get("id"));
+		int result= mainShowMapper.deleteByPrimaryKey(id);
+		if(result>0) {	
+			resultMsg.success();
+		}else {
+			resultMsg.error();
+		}
+		return resultMsg;
+	}
 	
 }

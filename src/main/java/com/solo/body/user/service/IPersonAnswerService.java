@@ -1,5 +1,7 @@
 package com.solo.body.user.service;
 
+import java.util.Map;
+
 import com.solo.body.user.model.PersonAnswer;
 
 public interface IPersonAnswerService {
@@ -14,4 +16,6 @@ public interface IPersonAnswerService {
     int updateByPrimaryKeySelective(PersonAnswer record);
 
     int updateByPrimaryKey(PersonAnswer record);
+    
+    PersonAnswer getPersonAnwser(Map param);
 }

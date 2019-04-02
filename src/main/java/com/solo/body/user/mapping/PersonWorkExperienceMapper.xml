@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solo.body.user.dao.PersonWorkExperienceMapper">
+  <resultMap id="BaseResultMap" type="com.solo.body.user.model.PersonWorkExperience">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="person_id" jdbcType="VARCHAR" property="personId" />
+    <result column="work_company" jdbcType="VARCHAR" property="workCompany" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="consultant_name" jdbcType="VARCHAR" property="consultantName" />
+    <result column="consultant_num" jdbcType="VARCHAR" property="consultantNum" />
+    <result column="pay" jdbcType="VARCHAR" property="pay" />
+    <result column="reasons" jdbcType="VARCHAR" property="reasons" />
+    <result column="time_slot" jdbcType="VARCHAR" property="timeSlot" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, person_id, work_company, job, consultant_name, consultant_num, pay, reasons, 
+    time_slot
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person_work_experience
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from person_work_experience
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.solo.body.user.model.PersonWorkExperience">
+    insert into person_work_experience (id, person_id, work_company, 
+      job, consultant_name, consultant_num, 
+      pay, reasons, time_slot
+      )
+    values (#{id,jdbcType=INTEGER}, #{personId,jdbcType=VARCHAR}, #{workCompany,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{consultantName,jdbcType=VARCHAR}, #{consultantNum,jdbcType=VARCHAR}, 
+      #{pay,jdbcType=VARCHAR}, #{reasons,jdbcType=VARCHAR}, #{timeSlot,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.solo.body.user.model.PersonWorkExperience">
+    insert into person_work_experience
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="personId != null">
+        person_id,
+      </if>
+      <if test="workCompany != null">
+        work_company,
+      </if>
+      <if test="job != null">
+        job,
+      </if>
+      <if test="consultantName != null">
+        consultant_name,
+      </if>
+      <if test="consultantNum != null">
+        consultant_num,
+      </if>
+      <if test="pay != null">
+        pay,
+      </if>
+      <if test="reasons != null">
+        reasons,
+      </if>
+      <if test="timeSlot != null">
+        time_slot,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personId != null">
+        #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="workCompany != null">
+        #{workCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="consultantName != null">
+        #{consultantName,jdbcType=VARCHAR},
+      </if>
+      <if test="consultantNum != null">
+        #{consultantNum,jdbcType=VARCHAR},
+      </if>
+      <if test="pay != null">
+        #{pay,jdbcType=VARCHAR},
+      </if>
+      <if test="reasons != null">
+        #{reasons,jdbcType=VARCHAR},
+      </if>
+      <if test="timeSlot != null">
+        #{timeSlot,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.solo.body.user.model.PersonWorkExperience">
+    update person_work_experience
+    <set>
+      <if test="personId != null">
+        person_id = #{personId,jdbcType=VARCHAR},
+      </if>
+      <if test="workCompany != null">
+        work_company = #{workCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="consultantName != null">
+        consultant_name = #{consultantName,jdbcType=VARCHAR},
+      </if>
+      <if test="consultantNum != null">
+        consultant_num = #{consultantNum,jdbcType=VARCHAR},
+      </if>
+      <if test="pay != null">
+        pay = #{pay,jdbcType=VARCHAR},
+      </if>
+      <if test="reasons != null">
+        reasons = #{reasons,jdbcType=VARCHAR},
+      </if>
+      <if test="timeSlot != null">
+        time_slot = #{timeSlot,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.solo.body.user.model.PersonWorkExperience">
+    update person_work_experience
+    set person_id = #{personId,jdbcType=VARCHAR},
+      work_company = #{workCompany,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      consultant_name = #{consultantName,jdbcType=VARCHAR},
+      consultant_num = #{consultantNum,jdbcType=VARCHAR},
+      pay = #{pay,jdbcType=VARCHAR},
+      reasons = #{reasons,jdbcType=VARCHAR},
+      time_slot = #{timeSlot,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <!-- 添加的方法 -->
+  <select id="selectBySql"   resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person_work_experience
+    where  ${value} 
+  </select>
+  <select id="selectCount"  resultType="java.lang.Integer">
+    select count(1)
+    from person_work_experience
+    where  ${value} 
+  </select> 
+  
+</mapper>

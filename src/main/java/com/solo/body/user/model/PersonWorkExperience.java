@@ -17,6 +17,8 @@ public class PersonWorkExperience {
 
     private String reasons;
 
+    private String timeSlot;
+
     public Integer getId() {
         return id;
     }
@@ -79,5 +81,13 @@ public class PersonWorkExperience {
 
     public void setReasons(String reasons) {
         this.reasons = reasons == null ? null : reasons.trim();
+    }
+
+    public String getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlot = timeSlot == null ? null : timeSlot.trim();
     }
 }

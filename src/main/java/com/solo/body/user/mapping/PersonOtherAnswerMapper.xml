@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.solo.body.user.dao.PersonOtherAnswerMapper">
+  <resultMap id="BaseResultMap" type="com.solo.body.user.model.PersonOtherAnswer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="anwser" jdbcType="VARCHAR" property="anwser" />
+    <result column="person_id" jdbcType="VARCHAR" property="personId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, anwser, person_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person_other_answer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from person_other_answer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.solo.body.user.model.PersonOtherAnswer">
+    insert into person_other_answer (id, title, anwser, 
+      person_id)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{anwser,jdbcType=VARCHAR}, 
+      #{personId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.solo.body.user.model.PersonOtherAnswer">
+    insert into person_other_answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="anwser != null">
+        anwser,
+      </if>
+      <if test="personId != null">
+        person_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="anwser != null">
+        #{anwser,jdbcType=VARCHAR},
+      </if>
+      <if test="personId != null">
+        #{personId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.solo.body.user.model.PersonOtherAnswer">
+    update person_other_answer
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="anwser != null">
+        anwser = #{anwser,jdbcType=VARCHAR},
+      </if>
+      <if test="personId != null">
+        person_id = #{personId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.solo.body.user.model.PersonOtherAnswer">
+    update person_other_answer
+    set title = #{title,jdbcType=VARCHAR},
+      anwser = #{anwser,jdbcType=VARCHAR},
+      person_id = #{personId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+<!-- 添加的方法 -->
+  <select id="selectBySql"   resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from person_other_answer
+    where  ${value} 
+  </select>
+  <select id="selectCount"  resultType="java.lang.Integer">
+    select count(1)
+    from person_other_answer
+    where  ${value} 
+  </select> 
+</mapper>
