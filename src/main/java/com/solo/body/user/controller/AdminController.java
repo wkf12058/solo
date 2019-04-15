@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.solo.body.user.dao.MainShowMapper;
+import com.solo.body.user.dao.PersonBsicsMapper;
 import com.solo.body.user.model.MainShow;
 import com.solo.body.user.model.PersonAnswer;
+import com.solo.body.user.model.PersonBsics;
 import com.solo.body.user.model.PersonEducation;
 import com.solo.body.user.model.PersonOtherAnswer;
 import com.solo.body.user.model.QChoice;
@@ -34,6 +36,7 @@ import com.solo.body.user.service.IQPaperService;
 import com.solo.util.basics.controller.BaseController;
 import com.solo.util.basics.msg.ResultMsg;
 import com.solo.util.mybatis.ResultPage;
+import com.solo.util.mybatis.SqlUtil;
 
 @Controller()
 @RequestMapping("/admin")
@@ -58,6 +61,8 @@ public class AdminController  extends BaseController{
 	@Resource
 	private  MainShowMapper mainShowMapper;//主页面
 	
+	@Resource
+	private PersonBsicsMapper personBsicsMapper;//基础信息
 	
 	/////////////////////////////////////////////////////////获取
 	
@@ -184,12 +189,74 @@ public class AdminController  extends BaseController{
 	@ResponseBody
 	public ResultMsg getMain(HttpServletRequest request) {
 		ResultMsg resultMsg = new ResultMsg();
-		List<MainShow> result= mainShowMapper.selectBySql("1=1");
+		List<MainShow> result= mainShowMapper.selectBySql("1=1 order by sort asc");
 		resultMsg.success(result);
 		return resultMsg;
 	}
 	
-	
+	/** 获取主页面显示
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getBriefPage")
+	@ResponseBody
+	public ResultMsg getBriefPage(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map  param=getParameterMap(request);
+		ResultPage resultPage=new ResultPage();
+		if(param.size()==0) {
+			return null;
+		}
+		Integer page=Integer.parseInt(param.get("page").toString());
+		Integer pageSize=Integer.parseInt(param.get("pageSize").toString());
+		int count=0;//总数
+		int maxPage=1;//最大页数
+		List<PersonBsics> list=null;//数据
+		
+		//组合拼装sql
+		StringBuilder sql=new StringBuilder("1=1");
+		
+		//获取查询条件的关键词
+		String name=param.get("name").toString();
+		String sex=param.get("sex").toString();
+		String phone=param.get("phone").toString();
+		String school=param.get("school").toString();
+		String major=param.get("major").toString();
+		String internshipTime=param.get("internshipTime").toString();
+		if(!StringUtils.isEmpty(sex)){
+			 sql.append(" and sex='"+sex+"'" );
+		}
+		if(!StringUtils.isEmpty(name)){
+			 sql.append(" and title name '%"+name+"%'" );
+		}
+		if(!StringUtils.isEmpty(phone)){
+			 sql.append(" and phone='"+phone+"'" );
+		}
+		if(!StringUtils.isEmpty(school)){
+			 sql.append(" and school like '%"+school+"%'" );
+		}
+		if(!StringUtils.isEmpty(major)){
+			 sql.append(" and major like '%"+major+"%'" );
+		}
+		//查询总数
+		count= personBsicsMapper.selectCount(sql.toString());
+		if(count>=0) {
+			//生产排序和分页sql
+			String pageSql=SqlUtil.page(page, pageSize, param);
+			sql.append(pageSql);
+			list=personBsicsMapper.selectBySql(sql.toString());
+			maxPage=(count%pageSize)==0? (count/pageSize):(count/pageSize)+1;
+		}
+		
+		resultPage.setTotal(count);
+		resultPage.setPage(page);
+		resultPage.setPageSize(pageSize);
+		resultPage.setData(list);
+		resultPage.setMaxPage(maxPage);
+		
+		resultMsg.success(resultPage);
+		return resultMsg;
+	}
 	/////////////////////////////////////////////////////////添加
 	
 	/**
@@ -336,6 +403,33 @@ public class AdminController  extends BaseController{
 		return resultMsg;
 	}
 	
+	/**
+	 * 添加
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/addBsics")
+	@ResponseBody
+	public ResultMsg addBsics(HttpServletRequest request) {
+		ResultMsg resultMsg = new ResultMsg();
+		Map<String,String>  param=getParameterMap(request);
+		PersonBsics record=new PersonBsics();
+		record.setInputTime(new Date().toString());
+		record.setInternshipTime(param.get("internshipTime"));
+		record.setMajor(param.get("major"));
+		record.setName(param.get("name"));
+		record.setPhone(param.get("phone"));
+		record.setSchool(param.get("school"));
+		record.setSex(param.get("sex"));
+		int result= personBsicsMapper.insert(record);
+		if(result>0) {	
+			resultMsg.success();
+		}else {
+			resultMsg.error();
+		}
+		return resultMsg;
+	}
+	
 /////////////////////////////////////////////////////////删除
 	
 	/**
@@ -397,5 +491,8 @@ public class AdminController  extends BaseController{
 		}
 		return resultMsg;
 	}
+	
+	
+
 	
 }
